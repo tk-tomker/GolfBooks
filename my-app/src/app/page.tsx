@@ -21,10 +21,11 @@ export default function Home() {
       <Navbar />
 
       <main className ="flex flex-1">
+        {/*-----------LIVE FEED SECTION-------------*/}
         <section className="w-1/4 p-4 border-r">
           <h2 className="text-lg font-semibold mb-4">Live Feed</h2>
         </section>
-
+        {/*-----------BOOKINGS SECTION-------------*/}
         <section className="flex-1 p-4 border-r ">
           <h2 className="text-2xl font-semibold mb-4 text-center">Upcoming Bookings</h2>
             <section className="p-4 grid grid-cols-3 md:gap-50 border border-red-400">
@@ -58,7 +59,7 @@ export default function Home() {
               />
             </section>
         </section>
-
+        {/*-----------CHATS SECTION-------------*/}
         <section className="w-1/4 p-4">
           <h2 className="text-lg font-semibold mb-4">Chats</h2>
         </section>

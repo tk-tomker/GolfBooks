@@ -25,40 +25,38 @@ export default function Home() {
           <h2 className="text-lg font-semibold mb-4">Live Feed</h2>
         </section>
 
-        <section className="flex-1 p-4 border-r">
+        <section className="flex-1 p-4 border-r ">
           <h2 className="text-2xl font-semibold mb-4 text-center">Upcoming Bookings</h2>
-            <Card className="flex-1">
-              <CardHeader>
-                <CardTitle>MON 17th</CardTitle>
-                <CardDescription>@ 17:30</CardDescription>
-                <CardAction></CardAction>
-              </CardHeader>
-              <CardContent>
+            <section className="p-4 grid grid-cols-3 md:gap-50 border border-red-400">
+              <Card className="w-40 h-35">
+                <CardHeader>
+                  <CardTitle>MON 17th</CardTitle>
+                  <CardDescription>@ 17:30</CardDescription>
                 
-              </CardContent>
-              <CardFooter>
-                
-              </CardFooter>
-            </Card>
-            <Card className="flex-1">
-              <CardHeader>
-                <CardTitle>SAT 28th</CardTitle>
-                <CardDescription>@ 13:00</CardDescription>
-                <CardAction></CardAction>
-              </CardHeader>
-              <CardContent>
-                
-              </CardContent>
-              <CardFooter>
-                
-              </CardFooter>
-            </Card>
-            <Calendar20
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              className="rounded-lg border"
-            />
+                </CardHeader>
+              </Card>
+              <Card className="w-40">
+                <CardHeader>
+                  <CardTitle>SAT 28th</CardTitle>
+                  <CardDescription>@ 13:00</CardDescription>
+                 
+                </CardHeader>
+              </Card>
+              <Card className="w-40">
+                <CardHeader>
+                  <CardTitle>FRI 2nd</CardTitle>
+                  <CardDescription>@ 17:30</CardDescription>
+                </CardHeader>
+              </Card> 
+            </section>
+            <section className="p-10 border border-red-400">
+              <Calendar20
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                className="rounded-lg border"
+              />
+            </section>
         </section>
 
         <section className="w-1/4 p-4">

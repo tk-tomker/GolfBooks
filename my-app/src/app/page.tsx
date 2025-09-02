@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "../components/ui/card"
 import { Calendar } from "../components/ui/calendar"
+import Calendar20 from "../components/ui/calendar-20"
 import { useState } from "react";
 
 export default function Home() {
@@ -52,7 +53,7 @@ export default function Home() {
                 
               </CardFooter>
             </Card>
-            <Calendar
+            <Calendar20
               mode="single"
               selected={date}
               onSelect={setDate}

@@ -24,6 +24,14 @@ export default function RootLayout({
   return (
     <main>
       {
+        <html>
+          <nav>
+            <Navbar />
+          </nav>
+          <body>
+            
+          </body>
+        </html>
         // <ClerkProvider>
         //   <html lang="en">
         //     <body className="antialiased">

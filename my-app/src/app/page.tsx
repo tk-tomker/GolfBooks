@@ -26,7 +26,7 @@ export default function Home() {
     const [date, setDate] = useState<Date | undefined>(undefined);
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      
       <main className ="flex flex-1">
         {/*-----------LIVE FEED SECTION-------------*/}
         <section className="w-1/4 p-4 border-r">

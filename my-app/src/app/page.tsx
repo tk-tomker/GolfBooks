@@ -13,13 +13,20 @@ import {
 import { Calendar } from "../components/ui/calendar";
 import Calendar20 from "../components/ui/calendar-20";
 import { useState } from "react";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
 
 export default function Home() {
     const [date, setDate] = useState<Date | undefined>(undefined);
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-
       <main className ="flex flex-1">
         {/*-----------LIVE FEED SECTION-------------*/}
         <section className="w-1/4 p-4 border-r">

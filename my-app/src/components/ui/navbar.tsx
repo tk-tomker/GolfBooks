@@ -27,7 +27,6 @@ export function Navbar() {
         <Button variant="secondary">Chats</Button>
         <Button variant="secondary">About Us</Button>
         <Button variant="secondary">Contact Us</Button>
-        <Button variant="secondary">Profile</Button>
       </div>
 
       {/* -------------------------------------------------

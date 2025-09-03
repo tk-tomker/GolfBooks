@@ -13,7 +13,6 @@ import {
 import { Calendar } from "../components/ui/calendar";
 import Calendar20 from "../components/ui/calendar-20";
 import { useState } from "react";
-import { Inter } from 'next/font/google';
 
 export default function Home() {
     const [date, setDate] = useState<Date | undefined>(undefined);
@@ -68,3 +67,4 @@ export default function Home() {
     </div>
   );
 }
+

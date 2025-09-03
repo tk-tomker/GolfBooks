@@ -7,18 +7,7 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs'
-import { Inter, Roboto_Mono } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-})
-
-const robotoMono = Roboto_Mono({
-  variable: '--font-roboto-mono',
-  subsets: ['latin'],
-})
 
 export const metadata: Metadata = {
   title: 'Clerk Next.js Quickstart',
@@ -33,7 +22,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${inter.variable} ${robotoMono.variable} antialiased`}>
+        <body className="antialiased">
           <header className="flex justify-end items-center p-4 gap-4 h-16">
             <SignedOut>
               <SignInButton />

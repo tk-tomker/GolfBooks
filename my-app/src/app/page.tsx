@@ -22,8 +22,11 @@ import {
   UserButton,
 } from '@clerk/nextjs'
 
+import { auth, currentUser } from '@clerk/nextjs/server'
+
 export default function Home() {
     const [date, setDate] = useState<Date | undefined>(undefined);
+
   return (
     <div className="min-h-screen flex flex-col">
       

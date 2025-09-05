@@ -1,16 +1,15 @@
-'use client';                     
-//'use client' means the code will run in the browser
+'use client' //indicates this is a client-side component
 
 
 //Manages state in functional componenets and handles side effects after rendering
 import { useEffect, useState } from 'react';
 
 //
-import { createClient } from '../lib/supabaseServer';
+import { createClient } from '../lib/supabase/supabaseServer';
 
 
 //imports the supabase client instance from a local file. Allows interaction with supabase backend
-import {supabase } from '../lib/supabaseClient'
+import {supabase } from '@supabase/ssr'
 
 //imports a component from the components library
 import NextBooking from '@/components/NextBooking'; 

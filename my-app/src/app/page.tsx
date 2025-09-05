@@ -20,19 +20,17 @@ import {
   SignUpButton,
 } from '@clerk/nextjs';
 
+import { useAuth } from '@clerk/nextjs'
+
+
 export default function Home() {
-  /* -------------------------------------------------------------
-   * 1️⃣ Local UI state – the date selected on the calendar
-   * ------------------------------------------------------------- */
+
   const [date, setDate] = useState<Date | undefined>(undefined);
 
-  /* -------------------------------------------------------------
-   * 2️⃣ Clerk client‑side hook – gives us user data & loading state
-   * ------------------------------------------------------------- */
-  const { user, isLoaded, isSignedIn } = useUser();
 
-  /* -------------------------------------------------------------
-   * 3️⃣ While Clerk is figuring out the session → show a spinner** */
+  const { user, isLoaded, isSignedIn, userId, sessionId } = useAuth();
+
+ 
   if (!isLoaded) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -41,9 +39,7 @@ export default function Home() {
     );
   }
 
-  /* -------------------------------------------------------------
-   * 4️⃣ If there is **no** signed‑in user → show sign‑in prompt
-   * ------------------------------------------------------------- */
+ 
   if (!isSignedIn) {
     return (
       <div className="flex h-screen flex-col items-center justify-center space-y-4">
@@ -52,9 +48,7 @@ export default function Home() {
     );
   }
 
-  /* -------------------------------------------------------------
-   * 5️⃣ Signed‑in UI – everything you originally wrote
-   * ------------------------------------------------------------- */
+
   return (
     <SignedIn>
       <div className="min-h-screen flex flex-col">
@@ -62,7 +56,7 @@ export default function Home() {
         <main className="flex flex-1">
          
           <section className="w-1/4 p-4 border-r">
-            <h2 className="text-lg font-semibold mb-4">Live Feed</h2>
+            <h2 className="text-lg font-semibold mb-4">Live Feed for {userId}</h2>
           </section>
 
           

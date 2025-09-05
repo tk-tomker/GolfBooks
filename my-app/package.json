@@ -11,6 +11,7 @@
     "@clerk/clerk-sdk-node": "^4.13.23",
     "@clerk/nextjs": "^6.31.8",
     "@radix-ui/react-slot": "^1.2.3",
+    "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.57.2",
     "@types/google.fonts": "^1.0.5",
     "class-variance-authority": "^0.7.1",

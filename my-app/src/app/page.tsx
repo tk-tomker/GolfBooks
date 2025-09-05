@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react';
 
 //
-import { createClient } from './server';
+import { createClient } from '../lib/supabaseServer';
 
 
 //imports the supabase client instance from a local file. Allows interaction with supabase backend

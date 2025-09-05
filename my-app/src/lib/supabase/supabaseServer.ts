@@ -1,5 +1,5 @@
 
-import { supabaseClient } from '../lib/supabaseClient'
+import { supabaseClient } from './supabaseClient'
 
 export async function createClient() {
   const cookie = use(cookies);

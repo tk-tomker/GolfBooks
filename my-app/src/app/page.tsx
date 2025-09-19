@@ -33,26 +33,46 @@ export default function Home() {
   const { user, isLoaded, isSignedIn } = useUser();
   const [userData, setUserData] = useState(null);
 
+  const [bookings, setBookings] = useState(null);
+  const [internalUserId, setInternalUserId] = useState(null);
+
+
   // Wait until user is loaded and signed in before fetching
   useEffect(() => {
     if (!isLoaded || !user) return;
 
-    async function fetchUser() {
-      const { data, error } = await supabaseClient
+    async function fetchUserBookings(clerkId: string) {
+      const { data:dbUser , error: userError } = await supabaseClient
         .from('users')
-        .select('*')
+        .select('user_id')
         .eq('clerk_id', clerkId)
         .single();
 
-      if (error) {
-        console.error('Error fetching user:', error);
-      } else {
-        setUserData(data);
+      if (userError) {
+        console.error('Error fetching user:', userError);
+        return;
       }
-    }
 
-    fetchUser();
-  }, [isLoaded, user]);
+      const supabaseId = dbUser?.user_id;
+        setInternalUserId(supabaseId);
+
+      const { data: bookings, error: bookingsError} = await supabaseClient
+      .from('bookings')
+      .select('start_time')
+      .eq('user_id', supabaseId);
+
+      if (bookingsError) {
+        console.error("Error fetching bookings:", bookingsError);
+        return;
+      }
+      return bookings;
+    }
+    fetchUserBookings(user.id).then(bookings => {
+      setUserData(bookings);
+      setBookings(bookings);
+    });
+}, [isLoaded, user]);
+
 
   // Show loading if user not loaded
   if (!isLoaded) {
@@ -73,16 +93,15 @@ export default function Home() {
   }
 
   const clerkId = user?.id;
-
   return (
     <SignedIn>
       <div className="min-h-screen flex flex-col">  
         <main className="flex flex-1">
           <section className="w-1/4 p-4 border-r"> 
-            <LiveFeed user={clerkId} userData={userData} />
+            <LiveFeed user={internalUserId}  />
           </section>
           <section className="flex-1 p-4 border-r">
-            <NextBooking />
+            <NextBooking bookings={bookings} />
           </section>
           <section className="w-1/4 p-4">
             <Chat />

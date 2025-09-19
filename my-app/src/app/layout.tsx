@@ -30,7 +30,13 @@ export default function RootLayout({
         <body className={`antialiased`}>
           <header className="flex justify-end items-center p-4 gap-4 h-16 sticky top-0 ">
             <Navbar />
-            
+        {/* -------------------------------------------------
+         *   Button that should only appear for **authenticated**
+         *   users – e.g. user avatar/menu
+         * ------------------------------------------------- */}
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
           </header>
           
           {children}

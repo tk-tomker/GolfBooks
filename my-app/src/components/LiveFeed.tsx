@@ -1,10 +1,11 @@
-interface LiveFeedProps {
-  clerkId: string | undefined;
-}
+import { useUser } from "@clerk/nextjs"; // adjust import if needed
 
-export default function LiveFeed({ user }: LiveFeedProps) {
+export default function LiveFeed({user}) {
+//   const {user, isLoaded, isSignedIn } = useUser();
+
   return (
     <h2 className="text-lg font-semibold mb-4">
-        Live Feed for {user ?? 'Unknown User'} </h2>
+       {user ? `Live Feed for ${user}` : "Live Feed for Loading user…"}
+    </h2>
   );
 }

@@ -8,8 +8,10 @@ import Calendar20 from '../components/ui/calendar-20';
 
 import { useState } from 'react';
 
-export default function NextBooking() {
+// ...existing code...
+export default function NextBooking({ bookings }) {
   const [date, setDate] = useState<Date | undefined>(undefined);
+
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4 text-center">
@@ -17,35 +19,34 @@ export default function NextBooking() {
       </h2>
 
       <section className="p-4 grid grid-cols-3 gap-4 border border-red-400">
-        <Card className="w-40 h-35">
-          <CardHeader>
-            <CardTitle>MON 17th</CardTitle>
-            <CardDescription>@ 17:30</CardDescription>
-          </CardHeader>
-        </Card>
-
-        <Card className="w-40">
-          <CardHeader>
-            <CardTitle>SAT 28th</CardTitle>
-            <CardDescription>@ 13:00</CardDescription>
-          </CardHeader>
-        </Card>
-
-        <Card className="w-40">
-          <CardHeader>
-            <CardTitle>FRI 2nd</CardTitle>
-            <CardDescription>@ 17:30</CardDescription>
-          </CardHeader>
-        </Card>
+        {bookings && bookings.length > 0 ? (
+          bookings.slice(0, 3).map((booking, idx) => (
+            <Card className="w-40 h-35" key={idx}>
+              <CardHeader>
+                <CardTitle>{new Date(booking.start_time).toDateString()}</CardTitle>
+                <CardDescription>
+                  @{new Date(booking.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          ))
+        ) : (
+          <Card className="w-40 h-35">
+            <CardHeader>
+              <CardTitle>No bookings</CardTitle>
+              <CardDescription>—</CardDescription>
+            </CardHeader>
+          </Card>
+        )}
       </section>
       <section className="p-10 border border-red-400">
-              <Calendar20
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-lg border"
-              />
-        </section>
+        <Calendar20
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="rounded-lg border"
+        />
+      </section>
     </div>
   );
 }

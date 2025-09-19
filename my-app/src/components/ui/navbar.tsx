@@ -36,7 +36,6 @@ export function Navbar() {
         </SignedOut>
 
         <SignedIn>
-    
           <UserButton />
         </SignedIn>
       </div>

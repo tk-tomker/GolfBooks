@@ -5,7 +5,7 @@ export default function LiveFeed({user}) {
 
   return (
     <h2 className="text-lg font-semibold mb-4">
-       {user ? `Live Feed for ${user}` : "Live Feed for Loading user…"}
+       {user ? `Live Feed` : "Live Feed for Loading user…"}
     </h2>
   );
 }

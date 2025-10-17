@@ -21,7 +21,7 @@ export default function NextBooking({ bookings }) {
       <section className="p-4 grid grid-cols-3 gap-4 border border-red-400">
         {bookings && bookings.length > 0 ? (
           bookings.slice(0, 3).map((booking, idx) => (
-            <Card className="w-40 h-35" key={idx}>
+            <Card className="w-40 h-35 transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105" key={idx}>
               <CardHeader>
                 <CardTitle>{new Date(booking.start_time).toDateString()}</CardTitle>
                 <CardDescription>

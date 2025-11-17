@@ -10,10 +10,14 @@ import Calendar20 from '../components/ui/calendar-20';
 import { useState } from 'react';
 import { useUser } from "@clerk/nextjs"
 
+//\/-------
+import * as React from "react"
+import createClient from "@/lib/supabase/supabaseClient"
+import BookingModal from "/@/components/ui/bookingModal"
+///\----------
 
   
 
-// ...existing code...
 export default function NextBooking({ bookings, internalUserId }) {
   const { isLoaded, user } = useUser()
   const clerkId = user?.id || null

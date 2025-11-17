@@ -101,7 +101,7 @@ export default function Home() {
             <LiveFeed user={internalUserId}  />
           </section>
           <section className="flex-1 p-4 border-r">
-            <NextBooking bookings={bookings} />
+            <NextBooking bookings={bookings} internalUserId={internalUserId} />
           </section>
           <section className="w-1/4 p-4">
             <Chat />

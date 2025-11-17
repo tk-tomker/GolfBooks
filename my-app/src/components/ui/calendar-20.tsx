@@ -6,11 +6,23 @@ import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 
-export default function Calendar20() {
+//IMPORT Supabase client
+import { createClient } from "@/lib/supabase/supabaseClient"
+
+
+const supabase = createClient()\
+
+export default function Calendar20({internalUserId, clerkId}) {
   const [date, setDate] = React.useState<Date | undefined>(
     new Date(2025, 5, 12)
   )
   const [selectedTime, setSelectedTime] = React.useState<string | null>("10:00")
+  //ADD button loading state
+  const [loading, setLoading] = React.useState(false)
+  //ADD feedback message
+  const [message, setMessage] = React.useState<string | null>(null)
+
+
   const timeSlots = Array.from({ length: 37 }, (_, i) => {
     const totalMinutes = i * 15
     const hour = Math.floor(totalMinutes / 60) + 9
@@ -22,6 +34,40 @@ export default function Calendar20() {
     { length: 3 },
     (_, i) => new Date(2025, 5, 17 + i)
   )
+
+  //NEW FUNCTION handles booking insertion to supabase
+  const handleBooking = async () => {
+    if (!date || !selectedTime || !internalUserId) return
+
+    setLoading(true)
+    setMessage(null)
+    
+    try {
+      const formattedDate = date.toISOString().split("T")[0]
+      const startTime = `${formattedDate}T${selectedTime}:00Z`
+
+      const { data, error } = await supabase
+        .from("bookings")
+        .insert([
+        {
+          user_id: internalUserId,
+          room_id: "17c5a53c-545b-42ff-98e4-5e5da9537688", // temp test
+          start_time: startTime,
+          duration: "1 hour",
+          paid_for: false,
+          clerk_id: clerkId
+        }
+      ])
+      if (error) throw error
+        setMessage("✅ Booking saved successfully!")
+    } catch (err: unknown) {
+        console.error("SUPABASE ERROR:", err)
+        setMessage("❌ " + err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
 
   return (
     <Card className="gap-0 p-0">
@@ -83,13 +129,21 @@ export default function Calendar20() {
           )}
         </div>
         <Button
-          disabled={!date || !selectedTime}
+        //added next two lines
+          disabled={!date || !selectedTime || loading}
+          onClick={handleBooking}
           className="w-full md:ml-auto md:w-auto"
           variant="outline"
         >
-          Continue
+          {loading ? "Booking..." : "Continue"}
         </Button>
       </CardFooter>
+      {/* show confirmation or error */}
+      {message && (
+        <p className="px-6 pb-4 text-sm text-center text-muted-foreground">
+          {message}
+        </p>
+      )}
     </Card>
   )
 }

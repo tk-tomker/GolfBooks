@@ -6,4 +6,5 @@ export function createClient() {
   )
 }
 
-export { createBrowserClient }
+/* export { createBrowserClient }
+ */

@@ -10,11 +10,11 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { createClient } from "@/lib/supabase/supabaseClient"
 
 
-const supabase = createClient()\
+const supabase = createClient()
 
 export default function Calendar20({internalUserId, clerkId}) {
   const [date, setDate] = React.useState<Date | undefined>(
-    new Date(2025, 5, 12)
+    new Date(2025, 11, 1)
   )
   const [selectedTime, setSelectedTime] = React.useState<string | null>("10:00")
   //ADD button loading state
@@ -32,7 +32,7 @@ export default function Calendar20({internalUserId, clerkId}) {
 
   const bookedDates = Array.from(
     { length: 3 },
-    (_, i) => new Date(2025, 5, 17 + i)
+    (_, i) => new Date(2025, 11, 17)
   )
 
   //NEW FUNCTION handles booking insertion to supabase
@@ -41,28 +41,42 @@ export default function Calendar20({internalUserId, clerkId}) {
 
     setLoading(true)
     setMessage(null)
-    
-    try {
-      const formattedDate = date.toISOString().split("T")[0]
-      const startTime = `${formattedDate}T${selectedTime}:00Z`
 
-      const { data, error } = await supabase
-        .from("bookings")
-        .insert([
+    try {
+      // Parse selectedTime (HH:mm) and build a local Date for that Y/M/D/H:m
+      const [hourStr, minuteStr] = selectedTime.split(":")
+      const hour = parseInt(hourStr, 10) || 0
+      const minute = parseInt(minuteStr, 10) || 0
+      // Construct local date/time so midnight/local offsets don't move the day when converting to ISO
+      const localDate = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        hour,
+        minute,
+        0
+      )
+
+      // Store the instant (UTC) that corresponds to the user's local date/time
+      const startTime = localDate.toISOString()
+
+
+      const { data, error } = await supabase.from("bookings").insert([
         {
           user_id: internalUserId,
           room_id: "17c5a53c-545b-42ff-98e4-5e5da9537688", // temp test
           start_time: startTime,
           duration: "1 hour",
           paid_for: false,
-          clerk_id: clerkId
-        }
+          clerk_id: clerkId,
+        },
       ])
+
       if (error) throw error
-        setMessage("✅ Booking saved successfully!")
+      setMessage("✅ Booking saved successfully!")
     } catch (err: unknown) {
-        console.error("SUPABASE ERROR:", err)
-        setMessage("❌ " + err.message)
+      console.error("SUPABASE ERROR:", err)
+      setMessage("❌ " + ((err as Error)?.message ?? String(err)))
     } finally {
       setLoading(false)
     }

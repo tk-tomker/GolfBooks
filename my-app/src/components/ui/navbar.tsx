@@ -3,6 +3,7 @@
 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Link from "next/link";
 
 import {
   SignedIn,
@@ -17,39 +18,47 @@ export function Navbar() {
     <nav className="flex w-full items-center p-4 border-b bg-white">
       <div className="flex items-center gap-2">
         {/* <Button variant="secondary"> */}
-        <Image
-          src="/logo.png"
-          alt="Logo"
-          width={50}
-          height={50}
-          className="mr-2 transition-all duration-200 hover:scale-105"
-          objectFit='cover'
-          quality={100}
-          style={{borderRadius: '8px'}}
-        />
+        <Link href="/">  
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={50}
+            height={50}
+            className="mr-2 transition-all duration-200 hover:scale-105"
+            objectFit='cover'
+            quality={100}
+            style={{borderRadius: '8px'}}
+          />
+        </Link>
         {/* </Button> */}
         <Button
-        variant="secondary"
+          variant="secondary"
           className="transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105"
         >
-          Bookings
+          <Link href="/bookings">Bookings</Link>
+        </Button>
+          
+          
+          
+        <Button
+          variant="secondary"
+          className="transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105"
+        >
+          <Link href="/chats">Chats</Link>
+
         </Button>
         <Button
           variant="secondary"
           className="transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105"
         >
-          Chats
-        </Button>
-        <Button
-          variant="secondary"
-          className="transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105"
-        >
-          About Us
+          <Link href="/about-us">About Us</Link>
+
         </Button>
         <Button 
         variant="secondary"
         className="transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105">
-          Contact Us
+          <Link href="/contact-us">Contact Us</Link>
+
           </Button>
       </div>
 

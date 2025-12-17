@@ -15,7 +15,7 @@ import {
 
 export function Navbar() {
   return (
-    <nav className="flex w-full items-center p-4 border-b bg-white">
+    <nav className="fixed inset-x-0 top-0 z-50 flex items-center p-4 border-b bg-white h-16">
       <div className="flex items-center gap-2">
         {/* <Button variant="secondary"> */}
         <Link href="/">  
@@ -75,6 +75,10 @@ export function Navbar() {
             <Button>Sign up</Button>
           </SignUpButton>
         </SignedOut>
+
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
 
         {/* <SignedIn>
           <UserButton />

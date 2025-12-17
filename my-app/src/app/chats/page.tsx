@@ -7,6 +7,8 @@ export default function BookingsPage() {
   
 
   return (
-    <h1>Testing</h1>
+    <main className ="flex flex-col items-center justify-center p-4 bg-gradient-to-b from-gray-100 to-white-100">
+      <h1>Testing</h1>
+    </main>
   )
 }

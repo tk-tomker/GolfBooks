@@ -97,13 +97,13 @@ export default function Home() {
     <SignedIn>
       <div className="min-h-screen flex flex-col">  
         <main className="flex flex-1">
-          <section className="w-1/4 p-4 border-r"> 
+          <section className="w-1/4 p-4 border-r rounded-r bg-[#10331e]"> 
             <LiveFeed user={internalUserId}  />
           </section>
-          <section className="flex-1 p-4 border-r">
+          <section className="flex-1 p-4 border-r bg-gradient-to-b from-gray-50 to-white-100">
             <NextBooking bookings={bookings} internalUserId={internalUserId} />
           </section>
-          <section className="w-1/4 p-4">
+          <section className="w-1/4 p-4 border-r rounded-l bg-[#10331e]">
             <Chat />
           </section>
         </main>

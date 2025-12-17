@@ -113,7 +113,7 @@ export default function BookingsPage() {
   return (
     <SignedIn>
       <div className="min-h-screen flex flex-col">  
-        <main className="flex flex-1">
+        <main className="flex flex-1 bg-gradient-to-b from-gray-50 to-white-100">
           <section className="w-1/2 p-4 border-r">
             <NextBooking bookings={bookings} internalUserId={internalUserId}/>
           </section>

@@ -29,7 +29,7 @@ export default function NextBooking({ bookings, internalUserId }) {
         Upcoming Bookings
       </h2>
 
-      <section className="p-4 grid grid-cols-3 gap-4 border border-red-400">
+      <section className="p-4 grid grid-cols-3 gap-4 border rounded-lg">
         {bookings && bookings.length > 0 ? (
           bookings.slice(0, 3).map((booking, idx) => (
             <Card className="w-40 h-35 transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105" key={idx}>
@@ -50,7 +50,7 @@ export default function NextBooking({ bookings, internalUserId }) {
           </Card>
         )}
       </section>
-      <section className="p-10 border border-red-400">
+      <section className="p-10">
         <Calendar20
           mode="single"
           selected={date}

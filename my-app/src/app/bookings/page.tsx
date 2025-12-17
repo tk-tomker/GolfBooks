@@ -58,7 +58,7 @@ export default function BookingsPage() {
 
       const { data: bookings, error: bookingsError} = await supabaseClient
       .from('bookings')
-      .select('start_time')
+      .select('booking_id, start_time')
       .eq('user_id', supabaseId);
 
       if (bookingsError) {
@@ -74,6 +74,17 @@ export default function BookingsPage() {
       setBookings(bookings);
     });
 }, [isLoaded, user]);
+
+  const handleDelete = async (bookingId: string) => {
+    const { error } = await supabaseClient
+      .from('bookings')
+      .delete()
+      .eq('booking_id', bookingId);
+
+    setBookings(bookings?.filter((b: any) => b.booking_id !== bookingId) || null);
+
+    alert("Booking deleted");
+  };
 
 
   // Show loading if user not loaded
@@ -131,7 +142,7 @@ export default function BookingsPage() {
                             <td className="border px-4 py-2">{bookingDate.toDateString()}</td>
                             <td className="border px-4 py-2">{bookingDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                             <td className="border px-4 py-2">
-                              <Button variant="destructive" onClick={() => handleDelete(booking.id)}>
+                              <Button variant="destructive" onClick={() => handleDelete(booking.booking_id)}>
                                 Delete
                               </Button>
                             </td>

@@ -80,8 +80,8 @@ export default function Home() {
   // Show loading if user not loaded
   if (!isLoaded) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        Loading…
+      <div className="flex h-screen items-center justify-center text-lg font-semibold">
+        Loading...
       </div>
     );
   }
@@ -106,7 +106,7 @@ export default function Home() {
       <div className="min-h-screen flex flex-col">  
         <main className="flex flex-1">
           <section className="w-1/4 p-4 border-r rounded-r overflow-hidden relative"> 
-          <div className="bg-[url('/contact-us-background.png')] absolute inset-0 bg-cover blur scale-105" />
+          <div className="bg-[url('/contact-us-background.png')] absolute inset-0 bg-cover blur-lg scale-105" />
           <div className="relative z-10">
             <LiveFeed user={internalUserId}  />
           </div>
@@ -115,7 +115,7 @@ export default function Home() {
             <NextBooking bookings={bookings} internalUserId={internalUserId} />
           </section>
           <section className="w-1/4 p-4 border-r rounded-r overflow-hidden relative"> 
-          <div className="bg-[url('/contact-us-background.png')] absolute inset-0 bg-cover blur scale-105" />
+          <div className="bg-[url('/contact-us-background.png')] absolute inset-0 bg-cover blur-lg scale-105" />
           <div className="relative z-10">
             <Chat />
           </div>

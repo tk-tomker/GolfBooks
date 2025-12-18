@@ -81,12 +81,22 @@ export function Navbar() {
           <Link href="/about-us">About Us</Link>
 
         </Button>
+
+        <Button 
+        variant="secondary"
+        className="transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105">
+          <Link href="/memberships">Your Membership</Link>
+
+        </Button>
+        
         <Button 
         variant="secondary"
         className="transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105">
           <Link href="/contact-us">Contact Us</Link>
 
           </Button>
+
+        
 
         {isAdmin && (
           <Button

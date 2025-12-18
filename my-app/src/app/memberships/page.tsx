@@ -30,6 +30,7 @@ interface UserData {
   username: string;
   membership_type: string;
   created_at: string;
+  paid_for?: boolean;
 }
 
 export default function MembershipPage() {
@@ -46,7 +47,7 @@ export default function MembershipPage() {
     async function fetchUserData(clerkId: string) {
       const { data } = await supabaseClient
         .from('users')
-        .select('user_id, username, membership_type, created_at')
+        .select('user_id, username, membership_type, created_at, paid_for')
         .eq('clerk_id', clerkId)
         .single();
       return data;
@@ -208,9 +209,9 @@ if (userData?.membership_type === "Birdie") {
             </Card>
             <Card className="backdrop-blur text-center bg-[white]/40 scale-105  hover:backdrop-blur transition-all duration-200 hover:bg-[white]/70 ease-in-out hover:scale-108">
                 <CardHeader>
-                    <CardTitle className ="text-2xl font-bold">Days Until Renewal</CardTitle> 
+                    <CardTitle className ="text-2xl font-bold">Paid For?</CardTitle> 
                     <CardDescription>
-                      <p className="text-4xl font-bold text-black mt-2">-</p>
+                      <p className="text-4xl font-bold text-black mt-2">{userData?.paid_for ? 'Yes' : 'No'}</p>
                     </CardDescription  >
                 </CardHeader>
             </Card>

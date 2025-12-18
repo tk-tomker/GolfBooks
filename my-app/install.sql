@@ -39,3 +39,10 @@ create table bookings(
     created_at timestamp with time zone default now(),
     paid_for boolean  
 );
+
+create table public.messages (
+  message_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  username text NOT NULL,
+  content text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+  );

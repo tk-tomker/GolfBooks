@@ -142,7 +142,7 @@ export default function BookingsPage() {
                             <td className="border px-4 py-2">{bookingDate.toDateString()}</td>
                             <td className="border px-4 py-2">{bookingDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                             <td className="border px-4 py-2">
-                              <Button variant="destructive" onClick={() => handleDelete(booking.booking_id)}>
+                              <Button className="hover:bg-red-500 active:scale-95" variant="destructive" onClick={() => handleDelete(booking.booking_id)}>
                                 Delete
                               </Button>
                             </td>

@@ -26,6 +26,7 @@ import { useAuth } from '@clerk/nextjs'
 import { useState, useEffect } from 'react';
 
 import { createClient } from '../lib/supabase/supabaseClient';
+import { Button } from '@/components/ui/button';
 const supabaseClient = createClient()
 
 //defines and exports a react functional component
@@ -35,10 +36,12 @@ export default function Home() {
 
   const [bookings, setBookings] = useState(null);
   const [internalUserId, setInternalUserId] = useState(null);
-
+  
+  
 
   // Wait until user is loaded and signed in before fetching
   useEffect(() => {
+    
     if (!isLoaded || !user) return;
 
     async function fetchUserBookings(clerkId: string) {
@@ -86,11 +89,16 @@ export default function Home() {
   // Show message if not signed in
   if (!isSignedIn) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center space-y-4">
+      <div className="flex h-[calc(100vh-64px)] flex-col items-center justify-center space-y-4">
+        <h2 className="text-9xl font-semibold">🔒</h2>
         <h2 className="text-2xl font-semibold">You must be signed in</h2>
+        <SignInButton mode="modal">
+            <Button variant="secondary">Sign in</Button>
+          </SignInButton>
       </div>
     );
   }
+
 
   const clerkId = user?.id;
   return (

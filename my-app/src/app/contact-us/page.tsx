@@ -14,9 +14,8 @@ export default function ContactUsPage() {
   
 
   return (
-    <>
-    <main className="flex items-center justify-center align-center h-[calc(100vh-64px)] bg-gradient-to-b from-gray-100 to-white-100">
-        <Card className="backdrop-blur w-100 h-58 self-center text-center bg-[white]/70  hover:backdrop-blur transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105">
+    <main className="bg-[url('/contact-us-background.png')] bg-cover bg-center flex items-center justify-center align-center h-[calc(100vh-64px)]">
+        <Card className="backdrop-blur w-100 h-58 self-center text-center bg-[white]/40 scale-105  hover:backdrop-blur transition-all duration-200 hover:bg-[white]/70 ease-in-out hover:scale-108">
             <CardHeader>
                 <CardTitle className = " text-2xl font-bold">Contact Us</CardTitle>
                 <CardDescription>
@@ -30,7 +29,6 @@ export default function ContactUsPage() {
         
         </Card>
     </main>
-    </>
   )
 }
 

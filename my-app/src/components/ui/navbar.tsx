@@ -71,7 +71,7 @@ export function Navbar() {
           variant="secondary"
           className="transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105"
         >
-          <Link href="/chats">Chats</Link>
+          <Link href="/chats">Members Directory</Link>
 
         </Button>
         <Button

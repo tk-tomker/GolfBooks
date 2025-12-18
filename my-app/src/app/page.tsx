@@ -105,14 +105,20 @@ export default function Home() {
     <SignedIn>
       <div className="min-h-screen flex flex-col">  
         <main className="flex flex-1">
-          <section className="w-1/4 p-4 border-r rounded-r bg-[#10331e]"> 
+          <section className="w-1/4 p-4 border-r rounded-r overflow-hidden relative"> 
+          <div className="bg-[url('/contact-us-background.png')] absolute inset-0 bg-cover blur scale-105" />
+          <div className="relative z-10">
             <LiveFeed user={internalUserId}  />
+          </div>
           </section>
-          <section className="flex-1 p-4 border-r bg-gradient-to-b from-gray-50 to-white-100">
+          <section className="flex-1 p-4 border-r bg-gradient-to-b from-[gray-50]/80 to-[white-100]/80">
             <NextBooking bookings={bookings} internalUserId={internalUserId} />
           </section>
-          <section className="w-1/4 p-4 border-r rounded-l bg-[#10331e]">
+          <section className="w-1/4 p-4 border-r rounded-r overflow-hidden relative"> 
+          <div className="bg-[url('/contact-us-background.png')] absolute inset-0 bg-cover blur scale-105" />
+          <div className="relative z-10">
             <Chat />
+          </div>
           </section>
         </main>
 

@@ -38,11 +38,11 @@ export default function LiveFeed({user}) {
 }, []);
 
   return (
-    <section className="p-4 overflow-auto text-center text-gray-200 shadow-lg bg-[#1e3a32]/40 rounded-lg">
-      <h2 className="text-lg font-semibold mb-4">
+    <section className="p-4 overflow-auto text-center text-gray-200 shadow-lg rounded-lg bg-[url('/livef-feed-background.png')] bg-cover bg-center">
+      <h2 className="text-2xl font-semibold mb-4">
         {user ? `Live Feed` : "Live Feed for Loading user…"}
       </h2>
-      <h3 className="text-2xl font-semibold mb-4 text-center underline rounded-lg">All Updates</h3>
+      {/* <h3 className="text-2xl font-semibold mb-4 text-center underline rounded-lg">All Updates</h3> */}
       <div className="w-full overflow-x-auto text-center">
         <table className=" table-auto w-full border-collapse rounded-lg">
           <thead >

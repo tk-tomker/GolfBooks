@@ -101,7 +101,6 @@ export default function MembershipPage() {
       .from('users')
       .update({ membership_type: 'Par' })
       .eq('clerk_id', user.id);
-
     setUserData((prev) => (prev ? { ...prev, membership_type: 'Par' } : prev));
     alert("Your membership has been downgraded to Par.");
   };

@@ -70,22 +70,13 @@ export default function Chats() {
         <div className="overflow-x-auto">
                 <table className="table-auto w-full border-collapse">
                   <thead>
-                    <td>
+                    <tr>
                       <th>Username</th>
-                    </td>
-                    <td>
                       <th>Email</th>
-                    </td>
-                    <td>
                       <th>Membership Type</th>
-                    </td>
-                    <td>
                       <th>Membership Since</th>
-                    </td>
-                    <td>
                       <th>Admin?</th>
-                    </td>
-
+                    </tr>
                   </thead>
                   <tbody>
                       {userData && userData.length > 0 ? (
@@ -97,8 +88,6 @@ export default function Chats() {
                               <td className="px-4 py-2">{userData.membership_type}</td>
                               <td className="px-4 py-2">{new Date(userData.created_at).toLocaleDateString()}</td>
                               <td className="px-4 py-2">{userData.role === 1 ? "Admin" : "Member"}</td>
-
-                      
                             </tr>
                           );
                         })

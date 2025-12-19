@@ -34,15 +34,16 @@ interface UserData {
 }
 
 export default function MembershipPage() {
-  const { user, isLoaded, isSignedIn } = useUser();
+  const { user, isLoaded } = useUser();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [bookingCount, setBookingCount] = useState<number>(0);
   const [daysSinceLastBooking, setDaysSinceLastBooking] = useState<number | null>(null);
-  const [internalUserId, setInternalUserId] = useState(null);
 
 
   useEffect(() => {
-    const clerkId = user?.id;
+    const clerkId = user!.id;
+    if (!isLoaded || !clerkId) return;
+
 
     async function fetchUserData(clerkId: string) {
       const { data } = await supabaseClient
@@ -74,18 +75,38 @@ export default function MembershipPage() {
 
     fetchUserData(clerkId).then(async (data) => {
       setUserData(data);
-      if (data?.user_id) {
-        const count = await fetchBookingCount(data.user_id);
+      if (userData?.user_id) {
+        const count = await fetchBookingCount(userData.user_id);
         setBookingCount(count);
         
-        const lastBookingDate = await fetchLastBookingDate(data.user_id);
+        const lastBookingDate = await fetchLastBookingDate(userData.user_id);
         if (lastBookingDate) {
           const daysDiff = Math.floor((Date.now() - new Date(lastBookingDate).getTime()) / (1000 * 60 * 60 * 24));
           setDaysSinceLastBooking(daysDiff);
         }
       }
-    });
-  }, [isLoaded, user]);
+    }
+);
+  }, [isLoaded, user?.id]);
+
+  if (!isLoaded) {
+    return <div className="flex h-[calc(100vh-64px)] items-center justify-center">Loading...</div>;
+  }
+
+  if (!user) {
+      return (
+        <div className="flex h-[calc(100vh-64px)] flex-col items-center justify-center space-y-4">
+          <h2 className="text-2xl font-semibold">Please sign in to view memberships.</h2>
+          <SignInButton mode="modal">
+            <Button variant="secondary">Sign In</Button>
+          </SignInButton>
+        </div>
+      );
+  }
+
+  if (!userData) {
+    return <div className="flex h-[calc(100vh-64px)] items-center justify-center">Fetching membership…</div>;
+  }
 
   const handleUpgrade = async () => {
     await supabaseClient
@@ -104,17 +125,6 @@ export default function MembershipPage() {
     setUserData((prev) => (prev ? { ...prev, membership_type: 'Par' } : prev));
     alert("Your membership has been downgraded to Par.");
   };
-
-  if (userData?.membership_type === null) {
-    return (
-      <div className="flex h-[calc(100vh-64px)] flex-col items-center justify-center space-y-4">
-        <h2 className="text-2xl font-semibold">You do not have a membership yet.</h2>
-        <SignUpButton mode="modal">
-            <Button variant="secondary">Get Membership</Button>
-          </SignUpButton>
-      </div>
-    );
-  }
 
   if (userData?.membership_type === null) {
     return (
@@ -235,4 +245,5 @@ if (userData?.membership_type === "Birdie") {
       </div>
       </main>
     )
+}
 };

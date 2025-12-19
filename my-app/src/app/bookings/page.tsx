@@ -122,15 +122,11 @@ export default function BookingsPage() {
             <div className="overflow-x-auto">
               <table className="table-auto w-full border-collapse border border-gray-200">
                 <thead>
-                  <td>
+                  <tr>
                     <th>Date</th>
-                  </td>
-                  <td>
                     <th>Start Time</th>
-                  </td>
-                  <td>
                     <th>Delete</th>
-                  </td>
+                  </tr>
 
                 </thead>
                 <tbody>

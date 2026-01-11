@@ -21,6 +21,8 @@ export default function Calendar20({internalUserId, clerkId}) {
   const [loading, setLoading] = React.useState(false)
   //ADD feedback message
   const [message, setMessage] = React.useState<string | null>(null)
+  const [bookedTimes, setBookedTimes] = React.useState<Set<string>>(new Set())
+
 
 
   const timeSlots = Array.from({ length: 37 }, (_, i) => {
@@ -34,6 +36,59 @@ export default function Calendar20({internalUserId, clerkId}) {
     { length: 3 },
     (_, i) => new Date(2025, 11, 17)
   )
+
+  // React.useEffect(() => {
+  //   if (!date) return
+
+  //   async function fetchBookedTimes(){
+  //     const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
+  //     const endOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59)
+
+  //     const { data } = await supabase
+  //       .from("bookings")
+  //       .select("start_time")
+  //       .gte("start_time", startOfDay.toISOString())
+  //       .lte("start_time", endOfDay.toISOString())
+  //   }
+  //      const times = new Set(
+  //       data?.map((booking) => {
+  //         const bookingDate = new Date(booking.start_time)
+  //         const hour = bookingDate.getHours().toString().padStart(2, "0")
+  //         const minute = bookingDate.getMinutes().toString().padStart(2, "0")
+  //         return `${hour}:${minute}`
+  //       }) || []
+  //     )
+  //     setBookedTimes(times)
+  // }
+  // fetchBookedTimes()
+  // }, [date])
+
+  React.useEffect(() => {
+    if (!date) return
+
+    async function fetchBookedTimes() {
+      const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
+      const endOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59)
+
+      const { data } = await supabase
+        .from("bookings")
+        .select("start_time")
+        .gte("start_time", startOfDay.toISOString())
+        .lte("start_time", endOfDay.toISOString())
+
+      const times = new Set(
+        data?.map((booking) => {
+          const bookingDate = new Date(booking.start_time)
+          const hour = bookingDate.getHours().toString().padStart(2, "0")
+          const minute = bookingDate.getMinutes().toString().padStart(2, "0")
+          return `${hour}:${minute}`
+        }) || []
+      )
+      setBookedTimes(times)
+    }
+    fetchBookedTimes()
+  }, [date])
+
 
   //NEW FUNCTION handles booking insertion to supabase
   const handleBooking = async () => {
@@ -110,16 +165,33 @@ export default function Calendar20({internalUserId, clerkId}) {
         </div>
         <div className="no-scrollbar inset-y-0 right-0 flex max-h-72 w-full scroll-pb-6 flex-col gap-4 overflow-y-auto border-t p-6 md:absolute md:max-h-none md:w-48 md:border-t-0 md:border-l">
           <div className="grid gap-2">
-            {timeSlots.map((time) => (
-              <Button
-                key={time}
-                variant={selectedTime === time ? "default" : "outline"}
-                onClick={() => setSelectedTime(time)}
-                className="w-full shadow-none"
-              >
-                {time}
-              </Button>
-            ))}
+            {timeSlots.map((time) => {
+              // Check if this time slot is booked or within an hour of a booked slot
+              let isBooked = false
+              for (const bookedTime of bookedTimes) {
+                const [bookedHour, bookedMin] = bookedTime.split(":").map(Number)
+                const [currentHour, currentMin] = time.split(":").map(Number)
+                const bookedMinutes = bookedHour * 60 + bookedMin
+                const currentMinutes = currentHour * 60 + currentMin
+                
+                if (currentMinutes >= bookedMinutes && currentMinutes < bookedMinutes + 60) {
+                  isBooked = true
+                  break
+                }
+              }
+
+              return (
+                <Button
+                  key={time}
+                  variant={selectedTime === time ? "default" : "outline"}
+                  onClick={() => !isBooked && setSelectedTime(time)}
+                  disabled={isBooked}
+                  className={`w-full shadow-none ${isBooked ? "opacity-50 cursor-not-allowed bg-gray-300" : ""}`}
+                >
+                  {time}
+                </Button>
+              )
+            })}
           </div>
         </div>
       </CardContent>

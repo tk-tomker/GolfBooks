@@ -20,8 +20,11 @@ import {
 } from '@clerk/nextjs';
 
 import { useState, useEffect } from 'react';
+import { useAuth } from '@clerk/nextjs'
 
 import { createClient } from '../../lib/supabase/supabaseClient';
+
+
 import { Button } from '@/components/ui/button';
 const supabaseClient = createClient()
 
@@ -30,7 +33,7 @@ interface UserData {
   username: string;
   membership_type: string;
   created_at: string;
-  paid_for?: boolean;
+  //paid_for?: boolean;
 }
 
 export default function MembershipPage() {
@@ -39,19 +42,27 @@ export default function MembershipPage() {
   const [bookingCount, setBookingCount] = useState<number>(0);
   const [daysSinceLastBooking, setDaysSinceLastBooking] = useState<number | null>(null);
 
-
   useEffect(() => {
-    const clerkId = user!.id;
-    if (!isLoaded || !clerkId) return;
-
+    if (!isLoaded || !user?.id) return;
+    const clerkId = user.id;
 
     async function fetchUserData(clerkId: string) {
-      const { data } = await supabaseClient
+      console.log('Fetching user with clerk_id:', clerkId);
+      
+      const { data, error } = await supabaseClient
         .from('users')
-        .select('user_id, username, membership_type, created_at, paid_for')
-        .eq('clerk_id', clerkId)
-        .single();
-      return data;
+        .select('user_id, username, membership_type, created_at')
+        .eq('clerk_id', clerkId);
+      
+      if (error) {
+        console.error('Supabase error:', JSON.stringify(error, null, 2));
+        console.error('Error object:', error);
+        return null;
+      }
+      
+      console.log('Successfully fetched user data:', data);
+      // data is an array without .single(), so get the first element
+      return data && data.length > 0 ? data[0] : null;
     }
 
     async function fetchBookingCount(userId: string) {
@@ -73,20 +84,34 @@ export default function MembershipPage() {
       return data?.created_at;
     }
 
-    fetchUserData(clerkId).then(async (data) => {
+    async function loadUserData() {
+      const data = await fetchUserData(clerkId);
+      console.log('Fetched user data:', data);
+      
+      if (!data) {
+        console.error('No user data returned');
+        return;
+      }
+      
       setUserData(data);
-      if (userData?.user_id) {
-        const count = await fetchBookingCount(userData.user_id);
-        setBookingCount(count);
-        
-        const lastBookingDate = await fetchLastBookingDate(userData.user_id);
-        if (lastBookingDate) {
-          const daysDiff = Math.floor((Date.now() - new Date(lastBookingDate).getTime()) / (1000 * 60 * 60 * 24));
-          setDaysSinceLastBooking(daysDiff);
-        }
+      
+      if (data.user_id) {
+        await loadBookingStats(data.user_id);
       }
     }
-);
+
+    async function loadBookingStats(userId: string) {
+      const count = await fetchBookingCount(userId);
+      setBookingCount(count);
+      
+      const lastBookingDate = await fetchLastBookingDate(userId);
+      if (lastBookingDate) {
+        const daysDiff = Math.floor((Date.now() - new Date(lastBookingDate).getTime()) / (1000 * 60 * 60 * 24));
+        setDaysSinceLastBooking(daysDiff);
+      }
+    }
+    fetchUserData(clerkId);
+    loadUserData();
   }, [isLoaded, user?.id]);
 
   if (!isLoaded) {
@@ -105,7 +130,7 @@ export default function MembershipPage() {
   }
 
   if (!userData) {
-    return <div className="flex h-[calc(100vh-64px)] items-center justify-center">Fetching membership…</div>;
+    return <div className="flex h-[calc(100vh-64px)] items-center justify-center">Fetching membership...</div>;
   }
 
   const handleUpgrade = async () => {
@@ -163,9 +188,10 @@ export default function MembershipPage() {
             </Card>
             <Card className="backdrop-blur text-center bg-[white]/40 scale-105  hover:backdrop-blur transition-all duration-200 hover:bg-[white]/70 ease-in-out hover:scale-108">
                 <CardHeader>
-                    <CardTitle className ="text-2xl font-bold">Days Until Renewal</CardTitle> 
+                    <CardTitle className ="text-2xl font-bold">Paid For?</CardTitle> 
                     <CardDescription>
-                      <p className="text-4xl font-bold text-black mt-2">-</p>
+                      <p className="text-4xl font-bold text-black mt-2">{userData?.paid_for ? 'Yes' : 'No'}</p>
+                      <p className="text-4xl font-bold text-black mt-2"></p>
                     </CardDescription  >
                 </CardHeader>
             </Card>
@@ -189,10 +215,10 @@ export default function MembershipPage() {
 
       </div>
       </main>
-    )
-};
+    );
+  }
 
-if (userData?.membership_type === "Birdie") {
+  if (userData?.membership_type === "Birdie") {
     return (
       <main className="relative flex justify-center h-[calc(100vh-64px)] overflow-hidden">
           <div className="bg-[url('/contact-us-background.png')] bg-cover bg-center blur-lg scale-105 h-[calc(100vh-64px)] w-full absolute inset-0 bg-cover bg-center blur-lg scale-105" />
@@ -221,6 +247,7 @@ if (userData?.membership_type === "Birdie") {
                     <CardTitle className ="text-2xl font-bold">Paid For?</CardTitle> 
                     <CardDescription>
                       <p className="text-4xl font-bold text-black mt-2">{userData?.paid_for ? 'Yes' : 'No'}</p>
+                      <p className="text-4xl font-bold text-black mt-2"></p>
                     </CardDescription  >
                 </CardHeader>
             </Card>
@@ -244,6 +271,6 @@ if (userData?.membership_type === "Birdie") {
 
       </div>
       </main>
-    )
+    );
+  }
 }
-};

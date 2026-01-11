@@ -36,6 +36,7 @@ export default function BookingsPage() {
 
     const { user, isLoaded, isSignedIn } = useUser();
     const [userData, setUserData] = useState(null);
+    const [userName, setUserName] = useState(null);
 
     const [bookings, setBookings] = useState(null);
     const [internalUserId, setInternalUserId] = useState(null);
@@ -77,13 +78,29 @@ export default function BookingsPage() {
       .from('bookings')
       .select('booking_id, start_time, user_id');
 
-
       if (bookingsError) {
         console.error("Error fetching bookings:", bookingsError);
         return;
       }
-      console.log('Bookings data:', bookings);
-      return bookings;
+
+      // Fetch usernames for each booking
+      const bookingsWithUsernames = await Promise.all(
+        (bookings || []).map(async (booking: any) => {
+          const { data: userData } = await supabaseClient
+            .from('users')
+            .select('username')
+            .eq('user_id', booking.user_id)
+            .single();
+          
+          return {
+            ...booking,
+            username: userData?.username || 'Unknown'
+          };
+        })
+      );
+
+      console.log('Bookings data:', bookingsWithUsernames);
+      return bookingsWithUsernames;
     }
     const fetchMessages = async () => {
       const {data} = await supabaseClient
@@ -95,6 +112,7 @@ export default function BookingsPage() {
     };
 
     fetchMessages();
+    
     
 
     
@@ -207,7 +225,7 @@ export default function BookingsPage() {
                             <tr>
                                 <th>Date</th>
                                 <th>Start Time</th>
-                                <th>UserID</th>
+                                <th>Username</th>
                                 <th>Delete</th>
                             </tr>
 
@@ -220,7 +238,7 @@ export default function BookingsPage() {
                                     <tr key={booking.booking_id} className="border-t">
                                         <td className="border px-4 py-2">{bookingDate.toDateString()}</td>
                                         <td className="border px-4 py-2">{bookingDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                                        <td className="mb-2 p-2 text-center ">{booking?.user_id ?? "-"}</td>
+                                        <td className="mb-2 p-2 text-center ">{booking?.username ?? "-"}</td>
                                         <td className="border px-4 py-2">
                                         <Button className="hover:bg-red-500 active:scale-95" variant="destructive" onClick={() => handleDelete(booking.booking_id)}>
                                             Delete

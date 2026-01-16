@@ -51,7 +51,7 @@ export default function MembershipPage() {
       
       const { data, error } = await supabaseClient
         .from('users')
-        .select('user_id, username, membership_type, created_at')
+        .select('user_id, username, membership_type, created_at, membership_paid')
         .eq('clerk_id', clerkId);
       
       if (error) {
@@ -246,7 +246,7 @@ export default function MembershipPage() {
                 <CardHeader>
                     <CardTitle className ="text-2xl font-bold">Paid For?</CardTitle> 
                     <CardDescription>
-                      <p className="text-4xl font-bold text-black mt-2">{userData?.paid_for ? 'Yes' : 'No'}</p>
+                      <p className="text-4xl font-bold text-black mt-2">{userData?.membership_paid === true ? 'Yes' : 'No'}</p>
                       <p className="text-4xl font-bold text-black mt-2"></p>
                     </CardDescription  >
                 </CardHeader>

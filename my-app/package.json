@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@clerk/backend": "^2.29.2",
     "@clerk/clerk-sdk-node": "^4.13.23",
     "@clerk/nextjs": "^6.31.8",
     "@radix-ui/react-slot": "^1.2.3",

@@ -105,6 +105,16 @@ export function Navbar() {
           >
             <Link href="/admin">Admin</Link>
           </Button>
+          
+        )}
+        {isAdmin && (
+          <Button
+            variant="secondary"
+            className="transition-all duration-200 hover:bg-[#1e3a32] hover:text-white hover:scale-105"
+          >
+            <Link href="/balance">Payments</Link>
+          </Button>
+          
         )}
       </div>
 

@@ -35,10 +35,10 @@ export default function BookingsPage() {
     const router = useRouter();
 
     const { user, isLoaded, isSignedIn } = useUser();
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState<any[] | null> (null);
     const [userName, setUserName] = useState(null);
 
-    const [bookings, setBookings] = useState(null);
+    const [bookings, setBookings] = useState<any[] | null> (null);
     const [internalUserId, setInternalUserId] = useState(null);
 
     const [username, setUsername] = useState<string>("");
@@ -77,12 +77,12 @@ export default function BookingsPage() {
       const { data: bookings, error: bookingsError} = await supabaseClient
       .from('bookings')
       .select('booking_id, start_time, user_id');
-
+      
       if (bookingsError) {
         console.error("Error fetching bookings:", bookingsError);
         return;
       }
-
+      
       // Fetch usernames for each booking
       const bookingsWithUsernames = await Promise.all(
         (bookings || []).map(async (booking: any) => {
@@ -98,7 +98,6 @@ export default function BookingsPage() {
           };
         })
       );
-
       console.log('Bookings data:', bookingsWithUsernames);
       return bookingsWithUsernames;
     }
@@ -108,7 +107,7 @@ export default function BookingsPage() {
         .select('content, username, created_at, message_id');
     
 
-    setMessages(data ?? []);
+    setMessages(data ?  [] : []);
     };
 
     fetchMessages();
@@ -119,8 +118,8 @@ export default function BookingsPage() {
 
     
     fetchUserBookings(user.id).then(bookings => {
-      setUserData(bookings);
-      setBookings(bookings);
+      setUserData(bookings || null);
+      setBookings(bookings || null);
     });
 }, [isLoaded, user]);
 

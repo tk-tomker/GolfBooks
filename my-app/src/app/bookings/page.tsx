@@ -33,8 +33,8 @@ export default function BookingsPage() {
   const { user, isLoaded, isSignedIn } = useUser();
   const [userData, setUserData] = useState<any [] | null>(null);
 
-  const [bookings, setBookings] = useState<any [] | null>(null);
-  const [internalUserId, setInternalUserId] = useState(null);
+  const [bookings, setBookings] = useState<any []>([]);
+  const [internalUserId, setInternalUserId] = useState("");
 
 
   // Wait until user is loaded and signed in before fetching
@@ -54,7 +54,7 @@ export default function BookingsPage() {
       }
 
       const supabaseId = dbUser?.user_id;
-        setInternalUserId(supabaseId);
+        setInternalUserId(supabaseId || "");
 
       const { data: bookings, error: bookingsError} = await supabaseClient
       .from('bookings')

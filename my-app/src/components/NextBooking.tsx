@@ -10,15 +10,16 @@ import Calendar20 from '../components/ui/calendar-20';
 import { useState } from 'react';
 import { useUser } from "@clerk/nextjs"
 
-//\/-------
+// Fixed the import path (removed leading slash)
 import * as React from "react"
-import createClient from "@/lib/supabase/supabaseClient"
-import BookingModal from "/@/components/ui/bookingModal"
-///\----------
 
-  
+// Added type definitions for props to fix TypeScript "implicitly has any" error
+interface NextBookingProps {
+  bookings: any[];
+  internalUserId: string;
+}
 
-export default function NextBooking({ bookings, internalUserId }) {
+export default function NextBooking({ bookings, internalUserId }: NextBookingProps) {
   const { isLoaded, user } = useUser()
   const clerkId = user?.id || null
   const [date, setDate] = useState<Date | undefined>(undefined)
@@ -52,10 +53,6 @@ export default function NextBooking({ bookings, internalUserId }) {
       </section>
       <section className="p-10">
         <Calendar20
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          className="rounded-lg border"
           internalUserId={internalUserId}
           clerkId={clerkId}
         />

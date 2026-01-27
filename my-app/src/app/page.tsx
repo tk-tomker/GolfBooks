@@ -34,8 +34,8 @@ export default function Home() {
   const { user, isLoaded, isSignedIn } = useUser();
   const [userData, setUserData] = useState(null);
 
-  const [bookings, setBookings] = useState(null);
-  const [internalUserId, setInternalUserId] = useState(null);
+  const [bookings, setBookings] = useState<any []>([]);
+  const [internalUserId, setInternalUserId] = useState<string>("");
   
   
 
@@ -57,7 +57,7 @@ export default function Home() {
       }
 
       const supabaseId = dbUser?.user_id;
-        setInternalUserId(supabaseId);
+        setInternalUserId(supabaseId || "");
 
       const { data: bookings, error: bookingsError} = await supabaseClient
       .from('bookings')
@@ -72,7 +72,7 @@ export default function Home() {
     }
     fetchUserBookings(user.id).then(bookings => {
       setUserData(bookings);
-      setBookings(bookings);
+      setBookings(bookings || []);
     });
 }, [isLoaded, user]);
 

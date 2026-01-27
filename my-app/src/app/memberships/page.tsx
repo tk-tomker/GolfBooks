@@ -33,7 +33,8 @@ interface UserData {
   username: string;
   membership_type: string;
   created_at: string;
-  //paid_for?: boolean;
+  membership_paid?: boolean;
+  paid_for?: boolean;
 }
 
 export default function MembershipPage() {
@@ -51,7 +52,7 @@ export default function MembershipPage() {
       
       const { data, error } = await supabaseClient
         .from('users')
-        .select('user_id, username, membership_type, created_at, membership_paid')
+        .select('user_id, username, membership_type, created_at, membership_paid, paid_for')
         .eq('clerk_id', clerkId);
       
       if (error) {

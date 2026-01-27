@@ -17,11 +17,13 @@ type Message = {
   username: string;
   created_at: string;
 };
+interface LiveFeedProps {
+  user: any;
+}
 
-
-export default function LiveFeed({user}) {
-//   const {user, isLoaded, isSignedIn } = useUser();
-  const [message, setMessages] = useState([]);
+export default function LiveFeed({user}: LiveFeedProps) {
+  //const {user, isLoaded, isSignedIn } = useUser();
+  const [message, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

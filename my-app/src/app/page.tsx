@@ -68,7 +68,7 @@ export default function Home() {
         console.error("Error fetching bookings:", bookingsError);
         return;
       }
-      return bookings;
+      return bookings as any;
     }
     fetchUserBookings(user.id).then(bookings => {
       setUserData(bookings);

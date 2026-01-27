@@ -31,9 +31,9 @@ const supabaseClient = createClient()
 
 export default function BookingsPage() {
   const { user, isLoaded, isSignedIn } = useUser();
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState<any [] | null>(null);
 
-  const [bookings, setBookings] = useState(null);
+  const [bookings, setBookings] = useState<any [] | null>(null);
   const [internalUserId, setInternalUserId] = useState(null);
 
 
@@ -65,7 +65,7 @@ export default function BookingsPage() {
         console.error("Error fetching bookings:", bookingsError);
         return;
       }
-      return bookings;
+      return bookings as any;
     }
 
     

@@ -53,7 +53,7 @@ export default function BookingsPage() {
     const [username, setUsername] = useState<string>("");
     const [content, setContent] = useState<string>("");
     
-    const [message, setMessages] = useState([]);
+    const [message, setMessages] = useState<any [] | null>(null);
     const [loading, setLoading] = useState(true);
 
     const sendMessage = async () => {
@@ -218,7 +218,7 @@ export default function BookingsPage() {
                                 {bookings && bookings.length > 0 ? (
                                 bookings.map((booking: any) => {
                                     const bookingDate = new Date(booking.start_time);
-                                    const member = userData.find((member) => member.user_id === booking.user_id);
+                                    const member = userData.find((member) => member.user_id === booking.user_id) as any;
 
                                     return (
                                     <tr key={booking.booking_id} className="border-t">

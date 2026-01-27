@@ -30,10 +30,10 @@ export default function BookingModal({ booking, open, onClose, onCancelBooking }
             setLoading(false)
         }
     }
-}
+
     if (!open || !booking) return null
 
-    const start = booking.start_time ?new Date(booking.start_time) : null
+    const start = booking.start_time ? new Date(booking.start_time) : null
 
     return(
         <div className="fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true">
@@ -60,3 +60,4 @@ export default function BookingModal({ booking, open, onClose, onCancelBooking }
             </div>   
         </div>
     )
+}

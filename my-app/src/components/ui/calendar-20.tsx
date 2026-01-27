@@ -12,7 +12,7 @@ import { createClient } from "@/lib/supabase/supabaseClient"
 
 const supabase = createClient()
 
-export default function Calendar20({internalUserId, clerkId}) {
+export default function Calendar20({internalUserId, clerkId}: {internalUserId: string; clerkId: string}) {
   const [date, setDate] = React.useState<Date | undefined>(
     new Date(2025, 11, 1)
   )
@@ -67,8 +67,8 @@ export default function Calendar20({internalUserId, clerkId}) {
     if (!date) return
 
     async function fetchBookedTimes() {
-      const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
-      const endOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59)
+      const startOfDay = new Date(date!.getFullYear(), date!.getMonth(), date!.getDate(), 0, 0, 0)
+      const endOfDay = new Date(date!.getFullYear(), date!.getMonth(), date!.getDate(), 23, 59, 59)
 
       const { data } = await supabase
         .from("bookings")

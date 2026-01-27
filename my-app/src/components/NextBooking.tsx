@@ -52,10 +52,12 @@ export default function NextBooking({ bookings, internalUserId }: NextBookingPro
         )}
       </section>
       <section className="p-10">
-        <Calendar20
-          internalUserId={internalUserId}
-          clerkId={clerkId}
-        />
+        {clerkId && (
+          <Calendar20
+            internalUserId={internalUserId}
+            clerkId={clerkId}
+          />
+        )}
       </section>
     </div>
   );
